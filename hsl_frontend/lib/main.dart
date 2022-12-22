@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hsl_frontend/advance_table.dart';
 import 'package:hsl_frontend/home.dart';
 
 void main() {

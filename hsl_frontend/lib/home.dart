@@ -31,16 +31,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int compareString(bool ascending, String value1, String value2) {
-    return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
-  }
+  // int compareString(bool ascending, String value1, String value2) {
+  //   return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
+  // }
 
-  int compareInt(bool ascending, int value1, int value2) {
-    return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
-  }
+  // int compareInt(bool ascending, int value1, int value2) {
+  //   return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
+  // }
 
-  int? sortColumnIndex = 0;
-  bool sortAscending = false;
+  // int? sortColumnIndex = 0;
+  // bool sortAscending = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,80 +59,46 @@ class _HomeState extends State<Home> {
                 return ListView(
                   children: [
                     PaginatedDataTable(
-                        sortColumnIndex: sortColumnIndex,
-                        sortAscending: sortAscending,
+                        // sortColumnIndex: sortColumnIndex,
+                        // sortAscending: sortAscending,
                         rowsPerPage: 200,
-                        columns: [
-                          const DataColumn(
+                        columns: const [
+                          DataColumn(
                             label: Text("Entry "),
                           ),
                           DataColumn(
-                              label: const Text("Departure Station Name"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                                // completeCSVList!.sort((tst1, tst2) =>
-                                //     compareString(ascending, tst1.departureName,
-                                //         tst2.departureName));
-                              }),
+                            label: Text("Departure Station Name"),
+                            // onSort: (int columnIndex, bool ascending) {
+                            //   setState(() {
+                            //     sortColumnIndex = columnIndex;
+                            //     sortAscending = ascending;
+                            //   });
+                            //   snapshot.data!.sort((tst1, tst2) =>
+                            //       compareString(ascending, tst1.departureName,
+                            //           tst2.departureName));
+                            // }
+                          ),
                           DataColumn(
-                              label: const Text("Departure Station Id"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                              }),
+                            label: Text("Departure Station Id"),
+                          ),
                           DataColumn(
-                              label: const Text("Departure Date"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                              }),
+                            label: Text("Departure Date"),
+                          ),
                           DataColumn(
-                              label: const Text("Return Station Name"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                              }),
+                            label: Text("Return Station Name"),
+                          ),
                           DataColumn(
-                              label: const Text("Return Station Id"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                              }),
+                            label: Text("Return Station Id"),
+                          ),
                           DataColumn(
-                              label: const Text("Return date"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                              }),
+                            label: Text("Return date"),
+                          ),
                           DataColumn(
-                              label: const Text("Cover Distance (meter)"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                              }),
+                            label: Text("Cover Distance (kilometer)"),
+                          ),
                           DataColumn(
-                              label: const Text("Duration (minute)"),
-                              onSort: (int columnIndex, bool ascending) {
-                                setState(() {
-                                  sortColumnIndex = columnIndex;
-                                  sortAscending = ascending;
-                                });
-                              }),
+                            label: Text("Duration (minute)"),
+                          ),
                         ],
                         source: TableData(listTest: snapshot.data)),
                     const Text("hola"),
