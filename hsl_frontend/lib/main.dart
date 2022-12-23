@@ -38,14 +38,14 @@ class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
-    // print("lol");
-    // var snapshot = await fetchJourneyList(http.Client());
-    // setState(() {
-    //   snapshotData = snapshot;
-    //   hasValue = true;
-    // });
-    // print(snapshot.length);
-    // print("lol2");
+    print("lol");
+    var snapshot = await fetchJourneyList(http.Client());
+    setState(() {
+      snapshotData = snapshot;
+      hasValue = true;
+    });
+    print(snapshot.length);
+    print("lol2");
     super.didChangeDependencies();
   }
 
@@ -56,12 +56,13 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Home(
-          title: "ok ",
-        )
-        // hasValue
-        //     ? Container(child: Text("ok fine"))
-        //     : Container(child: Text("ok fine not")),
-        );
+        home: hasValue
+            ? Home(
+                journeyList: snapshotData,
+              )
+            : Scaffold(
+                body: Center(
+                child: CircularProgressIndicator(),
+              )));
   }
 }

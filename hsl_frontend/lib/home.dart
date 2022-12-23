@@ -23,9 +23,9 @@ List<JourneyList> parseJourneyList(String responseBody) {
 }
 
 class Home extends StatefulWidget {
-  const Home({super.key, required this.title});
+  const Home({super.key, required this.journeyList});
 
-  final String title;
+  final List<JourneyList> journeyList;
 
   @override
   State<Home> createState() => _HomeState();
@@ -47,75 +47,61 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("ok"),
       ),
-      body: FutureBuilder<List<JourneyList>>(
-          future: fetchJourneyList(http.Client()),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(
-                child: Text("Error"),
-              );
-            } else if (snapshot.hasData) {
-              return ListView(
-                children: [
-                  PaginatedDataTable(
-                      showCheckboxColumn: false,
-                      // sortColumnIndex: sortColumnIndex,
-                      // sortAscending: sortAscending,
-                      rowsPerPage: 200,
-                      columns: [
-                        DataColumn(
-                          label: Text("Entry "),
-                        ),
-                        DataColumn(
-                          label: Text("Departure Station Name"),
-                          // onSort: (int columnIndex, bool ascending) {
-                          //   setState(() {
-                          //     sortColumnIndex = columnIndex;
-                          //     sortAscending = ascending;
-                          //   });
-                          //   snapshot.data!.sort((tst1, tst2) =>
-                          //       compareString(ascending, tst1.departureName,
-                          //           tst2.departureName));
-                          // }
-                        ),
-                        DataColumn(
-                            label: Text("Departure Station Id"),
-                            onSort: (int a, bool b) {
-                              var data = snapshot.data!.where((row) =>
-                                  (row.departureName.contains("Näkinsilta")));
-                              print(data.length);
-                            }),
-                        DataColumn(
-                          label: Text("Departure Date"),
-                        ),
-                        DataColumn(
-                          label: Text("Return Station Name"),
-                        ),
-                        DataColumn(
-                          label: Text("Return Station Id"),
-                        ),
-                        DataColumn(
-                          label: Text("Return date"),
-                        ),
-                        DataColumn(
-                          label: Text("Cover Distance (kilometer)"),
-                        ),
-                        DataColumn(
-                          label: Text("Duration (minute)"),
-                        ),
-                      ],
-                      source: TableData(listTest: snapshot.data)),
-                  const Text("hola"),
-                ],
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+      body: ListView(
+        children: [
+          PaginatedDataTable(
+              showCheckboxColumn: false,
+              // sortColumnIndex: sortColumnIndex,
+              // sortAscending: sortAscending,
+              rowsPerPage: 200,
+              columns: [
+                DataColumn(
+                  label: Text("Entry "),
+                ),
+                DataColumn(
+                  label: Text("Departure Station Name"),
+                  // onSort: (int columnIndex, bool ascending) {
+                  //   setState(() {
+                  //     sortColumnIndex = columnIndex;
+                  //     sortAscending = ascending;
+                  //   });
+                  //   snapshot.data!.sort((tst1, tst2) =>
+                  //       compareString(ascending, tst1.departureName,
+                  //           tst2.departureName));
+                  // }
+                ),
+                DataColumn(
+                    label: Text("Departure Station Id"),
+                    onSort: (int a, bool b) {
+                      var data = widget.journeyList.where(
+                          (row) => (row.departureName.contains("Näkinsilta")));
+                      print(data.length);
+                    }),
+                DataColumn(
+                  label: Text("Departure Date"),
+                ),
+                DataColumn(
+                  label: Text("Return Station Name"),
+                ),
+                DataColumn(
+                  label: Text("Return Station Id"),
+                ),
+                DataColumn(
+                  label: Text("Return date"),
+                ),
+                DataColumn(
+                  label: Text("Cover Distance (kilometer)"),
+                ),
+                DataColumn(
+                  label: Text("Duration (minute)"),
+                ),
+              ],
+              source: TableData(listTest: widget.journeyList)),
+          const Text("hola"),
+        ],
+      ),
     );
   }
 }
