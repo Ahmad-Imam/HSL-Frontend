@@ -40,51 +40,44 @@ class _StationState extends State<Station> {
       body: ListView(
         children: [
           PaginatedDataTable(
-              showCheckboxColumn: false,
-              // sortColumnIndex: sortColumnIndex,
-              // sortAscending: sortAscending,
-              rowsPerPage: 100,
-              columns: [
-                DataColumn(
-                  label: Text("fid"),
-                  // onSort: (int columnIndex, bool ascending) {
-                  //   setState(() {
-                  //     sortColumnIndex = columnIndex;
-                  //     sortAscending = ascending;
-                  //   });
-                  //   snapshot.data!.sort((tst1, tst2) =>
-                  //       compareString(ascending, tst1.departureName,
-                  //           tst2.departureName));
-                  // }
-                ),
-                DataColumn(
-                    label: Text("Id"),
-                    onSort: (int a, bool b) {
-                      // var data = widget.stationList.where(
-                      //     (row) => (row.departureName.contains("Näkinsilta")));
-                      // print(data.length);
-                    }),
-                DataColumn(
-                  label: Text("nimi"),
-                ),
-                DataColumn(
-                  label: Text("namn"),
-                ),
-                DataColumn(
-                  label: Text("name"),
-                ),
-                DataColumn(
-                  label: Text("osoite"),
-                ),
-                DataColumn(
-                  label: Text("address"),
-                ),
-                DataColumn(
-                  label: Text("kaupunki"),
-                ),
-              ],
-              source:
-                  StationPaginationDataTable(stationList: widget.stationList)),
+            showCheckboxColumn: false,
+            // sortColumnIndex: sortColumnIndex,
+            // sortAscending: sortAscending,
+            rowsPerPage: 100,
+            columns: [
+              DataColumn(
+                label: Text("fid"),
+              ),
+              DataColumn(
+                  label: Text("Id"),
+                  onSort: (int a, bool b) {
+                    // var data = widget.stationList.where(
+                    //     (row) => (row.departureName.contains("Näkinsilta")));
+                    // print(data.length);
+                  }),
+              DataColumn(
+                label: Text("nimi"),
+              ),
+              DataColumn(
+                label: Text("namn"),
+              ),
+              DataColumn(
+                label: Text("name"),
+              ),
+              DataColumn(
+                label: Text("osoite"),
+              ),
+              DataColumn(
+                label: Text("address"),
+              ),
+              DataColumn(
+                label: Text("kaupunki"),
+              ),
+            ],
+
+            source: StationPaginationDataTable(
+                stationList: widget.stationList, context: context),
+          ),
           const Text("hola"),
         ],
       ),

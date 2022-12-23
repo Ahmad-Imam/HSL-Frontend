@@ -47,23 +47,27 @@ List<JourneyList> parseJourneyList(String responseBody) {
   return parsed.map<JourneyList>((json) => JourneyList.fromJson(json)).toList();
 }
 
+late List<StationList> stationSnapshotData;
+late List<JourneyList> journeySnapshotData;
+
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
-  late List<JourneyList> journeySnapshotData;
-  late List<StationList> stationSnapshotData;
 
   late bool hasValue = false;
   @override
   void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     print("lol");
-    var snapshot = await fetchStationList(http.Client());
+    var snapshotStation = await fetchStationList(http.Client());
+    // var snapshotJourney = await fetchJourneyList(http.Client());
     setState(() {
       // journeySnapshotData = snapshot;
-      stationSnapshotData = snapshot;
+      stationSnapshotData = snapshotStation;
+      // journeySnapshotData = snapshotJourney;
       hasValue = true;
     });
-    print(snapshot.length);
+    // print(snapshotJourney.length);
+    print(snapshotStation.length);
     print("lol2");
     super.didChangeDependencies();
   }

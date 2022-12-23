@@ -8,20 +8,6 @@ import 'package:http/http.dart' as http;
 import '../model/journey_list.dart';
 import '../model/journey_table_data.dart';
 
-Future<List<JourneyList>> fetchJourneyList(http.Client client) async {
-  final response = await client
-      .get(Uri.parse('http://192.168.31.109:8080/sendJourneyListJson'));
-  print(response.statusCode);
-
-  return compute(parseJourneyList, response.body);
-}
-
-List<JourneyList> parseJourneyList(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-  // print(parsed);
-  return parsed.map<JourneyList>((json) => JourneyList.fromJson(json)).toList();
-}
-
 class Journey extends StatefulWidget {
   const Journey({super.key, required this.journeyList});
 

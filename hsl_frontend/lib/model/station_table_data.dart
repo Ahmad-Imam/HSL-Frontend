@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hsl_frontend/model/station_list.dart';
+
+import '../main.dart';
+import '../view/station_single_view.dart';
 
 class StationPaginationDataTable extends DataTableSource {
   var stationList;
+  BuildContext context;
   StationPaginationDataTable({
     required this.stationList,
+    required this.context,
   });
   @override
   DataRow? getRow(int index) {
@@ -11,6 +17,18 @@ class StationPaginationDataTable extends DataTableSource {
         onSelectChanged: (newValue) {
           print("row pressed: $newValue");
           print("${stationList[index].fid.toString()}");
+          var myListFiltered = journeySnapshotData
+              .where((e) => e.departureName == stationList[index].nimi)
+              .toList();
+          print(stationList[index]);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => StationSingle(
+                      station: stationList[index],
+                    )),
+          );
         },
         cells: [
           DataCell(Text(stationList[index].fid.toString())),
