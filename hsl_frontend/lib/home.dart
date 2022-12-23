@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'model/journey_list.dart';
+import 'model/table_data.dart';
 
 Future<List<JourneyList>> fetchJourneyList(http.Client client) async {
-  final response =
-      await client.get(Uri.parse('http://192.168.31.109:8080/sendJson'));
+  final response = await client
+      .get(Uri.parse('http://192.168.31.109:8080/sendJourneyListJson'));
   print(response.statusCode);
 
   return compute(parseJourneyList, response.body);
@@ -45,100 +46,76 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: FutureBuilder<List<JourneyList>>(
-            future: fetchJourneyList(http.Client()),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text("Error"),
-                );
-              } else if (snapshot.hasData) {
-                return ListView(
-                  children: [
-                    PaginatedDataTable(
-                        // sortColumnIndex: sortColumnIndex,
-                        // sortAscending: sortAscending,
-                        rowsPerPage: 200,
-                        columns: const [
-                          DataColumn(
-                            label: Text("Entry "),
-                          ),
-                          DataColumn(
-                            label: Text("Departure Station Name"),
-                            // onSort: (int columnIndex, bool ascending) {
-                            //   setState(() {
-                            //     sortColumnIndex = columnIndex;
-                            //     sortAscending = ascending;
-                            //   });
-                            //   snapshot.data!.sort((tst1, tst2) =>
-                            //       compareString(ascending, tst1.departureName,
-                            //           tst2.departureName));
-                            // }
-                          ),
-                          DataColumn(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: FutureBuilder<List<JourneyList>>(
+          future: fetchJourneyList(http.Client()),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text("Error"),
+              );
+            } else if (snapshot.hasData) {
+              return ListView(
+                children: [
+                  PaginatedDataTable(
+                      showCheckboxColumn: false,
+                      // sortColumnIndex: sortColumnIndex,
+                      // sortAscending: sortAscending,
+                      rowsPerPage: 200,
+                      columns: [
+                        DataColumn(
+                          label: Text("Entry "),
+                        ),
+                        DataColumn(
+                          label: Text("Departure Station Name"),
+                          // onSort: (int columnIndex, bool ascending) {
+                          //   setState(() {
+                          //     sortColumnIndex = columnIndex;
+                          //     sortAscending = ascending;
+                          //   });
+                          //   snapshot.data!.sort((tst1, tst2) =>
+                          //       compareString(ascending, tst1.departureName,
+                          //           tst2.departureName));
+                          // }
+                        ),
+                        DataColumn(
                             label: Text("Departure Station Id"),
-                          ),
-                          DataColumn(
-                            label: Text("Departure Date"),
-                          ),
-                          DataColumn(
-                            label: Text("Return Station Name"),
-                          ),
-                          DataColumn(
-                            label: Text("Return Station Id"),
-                          ),
-                          DataColumn(
-                            label: Text("Return date"),
-                          ),
-                          DataColumn(
-                            label: Text("Cover Distance (kilometer)"),
-                          ),
-                          DataColumn(
-                            label: Text("Duration (minute)"),
-                          ),
-                        ],
-                        source: TableData(listTest: snapshot.data)),
-                    const Text("hola"),
-                  ],
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }));
+                            onSort: (int a, bool b) {
+                              var data = snapshot.data!.where((row) =>
+                                  (row.departureName.contains("Näkinsilta")));
+                              print(data.length);
+                            }),
+                        DataColumn(
+                          label: Text("Departure Date"),
+                        ),
+                        DataColumn(
+                          label: Text("Return Station Name"),
+                        ),
+                        DataColumn(
+                          label: Text("Return Station Id"),
+                        ),
+                        DataColumn(
+                          label: Text("Return date"),
+                        ),
+                        DataColumn(
+                          label: Text("Cover Distance (kilometer)"),
+                        ),
+                        DataColumn(
+                          label: Text("Duration (minute)"),
+                        ),
+                      ],
+                      source: TableData(listTest: snapshot.data)),
+                  const Text("hola"),
+                ],
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+    );
   }
-}
-
-class TableData extends DataTableSource {
-  var listTest;
-  TableData({
-    required this.listTest,
-  });
-  @override
-  DataRow? getRow(int index) {
-    return DataRow(cells: [
-      DataCell(Text((index + 1).toString())),
-      DataCell(Text(listTest[index].departureName.toString())),
-      DataCell(Text(listTest[index].departureId.toString())),
-      DataCell(Text(listTest[index].departure_date.toString())),
-      DataCell(Text(listTest[index].return_date.toString())),
-      DataCell(Text(listTest[index].returnId.toString())),
-      DataCell(Text(listTest[index].returnName.toString())),
-      DataCell(Text(listTest[index].coverDistance.toString())),
-      DataCell(Text(listTest[index].duration.toString())),
-    ]);
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => listTest.length;
-
-  @override
-  int get selectedRowCount => 0;
 }
