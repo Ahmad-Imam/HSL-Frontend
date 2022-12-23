@@ -3,35 +3,23 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hsl_frontend/model/station_list.dart';
 import 'package:http/http.dart' as http;
 
-import 'model/journey_list.dart';
-import 'model/table_data.dart';
+import '../model/journey_list.dart';
+import '../model/journey_table_data.dart';
+import '../model/station_table_data.dart';
 
-Future<List<JourneyList>> fetchJourneyList(http.Client client) async {
-  final response = await client
-      .get(Uri.parse('http://192.168.31.109:8080/sendJourneyListJson'));
-  print(response.statusCode);
+class Station extends StatefulWidget {
+  const Station({super.key, required this.stationList});
 
-  return compute(parseJourneyList, response.body);
-}
-
-List<JourneyList> parseJourneyList(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-  // print(parsed);
-  return parsed.map<JourneyList>((json) => JourneyList.fromJson(json)).toList();
-}
-
-class Home extends StatefulWidget {
-  const Home({super.key, required this.journeyList});
-
-  final List<JourneyList> journeyList;
+  final List<StationList> stationList;
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Station> createState() => _StationState();
 }
 
-class _HomeState extends State<Home> {
+class _StationState extends State<Station> {
   // int compareString(bool ascending, String value1, String value2) {
   //   return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
   // }
@@ -55,13 +43,10 @@ class _HomeState extends State<Home> {
               showCheckboxColumn: false,
               // sortColumnIndex: sortColumnIndex,
               // sortAscending: sortAscending,
-              rowsPerPage: 200,
+              rowsPerPage: 100,
               columns: [
                 DataColumn(
-                  label: Text("Entry "),
-                ),
-                DataColumn(
-                  label: Text("Departure Station Name"),
+                  label: Text("fid"),
                   // onSort: (int columnIndex, bool ascending) {
                   //   setState(() {
                   //     sortColumnIndex = columnIndex;
@@ -73,32 +58,33 @@ class _HomeState extends State<Home> {
                   // }
                 ),
                 DataColumn(
-                    label: Text("Departure Station Id"),
+                    label: Text("Id"),
                     onSort: (int a, bool b) {
-                      var data = widget.journeyList.where(
-                          (row) => (row.departureName.contains("Näkinsilta")));
-                      print(data.length);
+                      // var data = widget.stationList.where(
+                      //     (row) => (row.departureName.contains("Näkinsilta")));
+                      // print(data.length);
                     }),
                 DataColumn(
-                  label: Text("Departure Date"),
+                  label: Text("nimi"),
                 ),
                 DataColumn(
-                  label: Text("Return Station Name"),
+                  label: Text("namn"),
                 ),
                 DataColumn(
-                  label: Text("Return Station Id"),
+                  label: Text("name"),
                 ),
                 DataColumn(
-                  label: Text("Return date"),
+                  label: Text("osoite"),
                 ),
                 DataColumn(
-                  label: Text("Cover Distance (kilometer)"),
+                  label: Text("address"),
                 ),
                 DataColumn(
-                  label: Text("Duration (minute)"),
+                  label: Text("kaupunki"),
                 ),
               ],
-              source: TableData(listTest: widget.journeyList)),
+              source:
+                  StationPaginationDataTable(stationList: widget.stationList)),
           const Text("hola"),
         ],
       ),

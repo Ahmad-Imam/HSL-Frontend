@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hsl_frontend/home.dart';
+import 'package:hsl_frontend/model/station_list.dart';
+import 'package:hsl_frontend/view/journey_list_view.dart';
+import 'package:hsl_frontend/view/station_list_view.dart';
 import 'package:http/http.dart' as http;
 import 'model/journey_list.dart';
 
@@ -15,6 +17,20 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
+}
+
+Future<List<StationList>> fetchStationList(http.Client client) async {
+  final response = await client
+      .get(Uri.parse('http://192.168.31.109:8080/sendStationListJson'));
+  print(response.statusCode);
+
+  return compute(parseStationList, response.body);
+}
+
+List<StationList> parseStationList(String responseBody) {
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+  // print(parsed);
+  return parsed.map<StationList>((json) => StationList.fromJson(json)).toList();
 }
 
 Future<List<JourneyList>> fetchJourneyList(http.Client client) async {
@@ -33,15 +49,18 @@ List<JourneyList> parseJourneyList(String responseBody) {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
-  late List<JourneyList> snapshotData;
+  late List<JourneyList> journeySnapshotData;
+  late List<StationList> stationSnapshotData;
+
   late bool hasValue = false;
   @override
   void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     print("lol");
-    var snapshot = await fetchJourneyList(http.Client());
+    var snapshot = await fetchStationList(http.Client());
     setState(() {
-      snapshotData = snapshot;
+      // journeySnapshotData = snapshot;
+      stationSnapshotData = snapshot;
       hasValue = true;
     });
     print(snapshot.length);
@@ -57,8 +76,8 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: hasValue
-            ? Home(
-                journeyList: snapshotData,
+            ? Station(
+                stationList: stationSnapshotData,
               )
             : Scaffold(
                 body: Center(
