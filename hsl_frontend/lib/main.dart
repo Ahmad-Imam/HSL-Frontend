@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hsl_frontend/model/station_list.dart';
+import 'package:hsl_frontend/view/home.dart';
 import 'package:hsl_frontend/view/journey_list_view.dart';
 import 'package:hsl_frontend/view/station_list_view.dart';
 import 'package:http/http.dart' as http;
@@ -80,12 +81,22 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: hasValue
-            ? Station(
-                stationList: stationSnapshotData,
-              )
+            ? HomePage()
+            // Station(
+            //     stationList: stationSnapshotData,
+            //   )
             : Scaffold(
                 body: Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text("Please wait a moment while the data is configured")
+                  ],
+                ),
               )));
   }
 }

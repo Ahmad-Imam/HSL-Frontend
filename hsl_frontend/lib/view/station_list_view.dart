@@ -35,7 +35,8 @@ class _StationState extends State<Station> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ok"),
+        title: Text("Station List"),
+        centerTitle: true,
       ),
       body: ListView(
         children: [
