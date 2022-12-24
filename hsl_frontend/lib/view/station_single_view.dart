@@ -6,8 +6,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../model/station_list.dart';
 
 class StationSingle extends StatefulWidget {
-  const StationSingle({super.key, required this.station});
+  const StationSingle(
+      {super.key,
+      required this.station,
+      required this.avgDeparture,
+      required this.avgReturn,
+      required this.totalDeparture,
+      required this.totalReturn});
   final StationList station;
+  final double avgDeparture;
+  final double avgReturn;
+  final int totalDeparture;
+  final int totalReturn;
 
   @override
   State<StationSingle> createState() => _StationSingleState();
@@ -29,11 +39,6 @@ class _StationSingleState extends State<StationSingle> {
     super.initState();
   }
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
   // ignore: prefer_final_fields
   late CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
@@ -48,32 +53,31 @@ class _StationSingleState extends State<StationSingle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 228, 246, 255),
       body: Column(
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * .6,
-            child: GoogleMap(
-              mapType: MapType.normal,
-              markers: {
-                Marker(
-                  markerId: const MarkerId("marker1"),
-                  position: const LatLng(37.422131, -122.084801),
-                  draggable: true,
-                  onDragEnd: (value) {
-                    // value is the new position
-                  },
-                  // To do: custom marker icon
-                ),
-                Marker(
-                  markerId: const MarkerId("marker2"),
-                  position: LatLng(double.parse(lat), double.parse(lng)),
-                ),
-              },
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(50),
+              ),
+              child: GoogleMap(
+                mapType: MapType.normal,
+                markers: {
+                  Marker(
+                    markerId: const MarkerId("marker1"),
+                    position: LatLng(double.parse(lat), double.parse(lng)),
+                  ),
+                },
+                initialCameraPosition: _kLake,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              ),
             ),
           ),
           SizedBox(
@@ -82,7 +86,10 @@ class _StationSingleState extends State<StationSingle> {
           ExpansionTile(
             title: Text(
               "${widget.station.name}",
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             subtitle: Text(
               "Station",
@@ -102,31 +109,41 @@ class _StationSingleState extends State<StationSingle> {
               ),
               ListTile(
                 title: Text(
-                  "Kaupunki: ",
+                  "Total Departure: ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 trailing: Text(
-                  "${widget.station.kaupunki}",
+                  "${widget.totalDeparture}",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
               ListTile(
                 title: Text(
-                  "Operaattor: ",
+                  "Total Return: ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 trailing: Text(
-                  "${widget.station.operaatto}",
+                  "${widget.totalReturn}",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
               ListTile(
                 title: Text(
-                  "Kapasiteet: ",
+                  "Average Distance of Departures: ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 trailing: Text(
-                  "${widget.station.kapasiteet}",
+                  "${widget.avgDeparture.floorToDouble()}",
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  "Average Distance of Returns: ",
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+                trailing: Text(
+                  "${widget.avgReturn.floorToDouble()}",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
@@ -134,11 +151,11 @@ class _StationSingleState extends State<StationSingle> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: const Text('To the lake!'),
-        icon: const Icon(Icons.directions_boat),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: _goToTheLake,
+      //   label: const Text('To the lake!'),
+      //   icon: const Icon(Icons.directions_boat),
+      // ),
     );
   }
 }
