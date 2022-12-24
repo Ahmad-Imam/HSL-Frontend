@@ -59,11 +59,11 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement didChangeDependencies
     print("lol");
     var snapshotStation = await fetchStationList(http.Client());
-    // var snapshotJourney = await fetchJourneyList(http.Client());
+    var snapshotJourney = await fetchJourneyList(http.Client());
     setState(() {
       // journeySnapshotData = snapshot;
       stationSnapshotData = snapshotStation;
-      // journeySnapshotData = snapshotJourney;
+      journeySnapshotData = snapshotJourney;
       hasValue = true;
     });
     // print(snapshotJourney.length);

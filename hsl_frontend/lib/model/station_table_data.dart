@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hsl_frontend/model/station_list.dart';
+import 'package:hsl_frontend/view/map.dart';
 
 import '../main.dart';
 import '../view/station_single_view.dart';
@@ -21,6 +22,11 @@ class StationPaginationDataTable extends DataTableSource {
               .where((e) => e.departureName == stationList[index].nimi)
               .toList();
           print(stationList[index]);
+
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => MapSample()),
+          // );
 
           Navigator.push(
             context,
