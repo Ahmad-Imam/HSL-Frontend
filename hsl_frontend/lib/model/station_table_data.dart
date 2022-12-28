@@ -14,6 +14,7 @@ class StationPaginationDataTable extends DataTableSource {
 
   double calculateAvgDeparture(var stationList) {
     double avgDepartureDistance = 0;
+    if (stationList.length == 0) return 0;
     stationList.forEach(
       (element) {
         // print(element.coverDistance);
@@ -25,6 +26,7 @@ class StationPaginationDataTable extends DataTableSource {
 
   double calculateAvgReturn(var stationList) {
     double avgReturnDistance = 0;
+    if (stationList.length == 0) return 0;
     stationList.forEach(
       (element) {
         // print(element.coverDistance);

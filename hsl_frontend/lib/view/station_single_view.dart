@@ -26,16 +26,20 @@ class StationSingle extends StatefulWidget {
 class _StationSingleState extends State<StationSingle> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-  late String lat;
-  late String lng;
+  String lat = "0";
+  String lng = "0";
 
   @override
   void initState() {
     // TODO: implement initState
-    setState(() {
-      lat = widget.station.y;
-      lng = widget.station.x;
-    });
+    if (double.tryParse(widget.station.y) != null ||
+        double.tryParse(widget.station.y) != null) {
+      setState(() {
+        lat = widget.station.y;
+        lng = widget.station.x;
+      });
+    }
+
     super.initState();
   }
 
@@ -54,36 +58,56 @@ class _StationSingleState extends State<StationSingle> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 228, 246, 255),
-      body: Column(
+      body: ListView(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * .6,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(50),
-              ),
-              child: GoogleMap(
-                mapType: MapType.normal,
-                markers: {
-                  Marker(
-                    markerId: const MarkerId("marker1"),
-                    position: LatLng(double.parse(lat), double.parse(lng)),
+          double.parse(lat) == 0 || double.parse(lng) == 0
+              ? Column(
+                  children: [
+                    SizedBox(height: 150),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "No location found with Lattitude: ${widget.station.y} and Longitude: ${widget.station.x}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    SizedBox(height: 50),
+                  ],
+                )
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * .6,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                    child: GoogleMap(
+                      mapType: MapType.normal,
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId("marker1"),
+                          position:
+                              LatLng(double.parse(lat), double.parse(lng)),
+                        ),
+                      },
+                      initialCameraPosition: _kLake,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                      },
+                    ),
                   ),
-                },
-                initialCameraPosition: _kLake,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-              ),
-            ),
-          ),
+                ),
           SizedBox(
             height: 10,
           ),
           ExpansionTile(
+            initiallyExpanded: true,
             title: Text(
               "${widget.station.name}",
               style: TextStyle(
@@ -140,11 +164,15 @@ class _StationSingleState extends State<StationSingle> {
               ListTile(
                 title: Text(
                   "Average Distance of Returns: ",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 trailing: Text(
                   "${widget.avgReturn.floorToDouble()}",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

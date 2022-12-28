@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hsl_frontend/view/add_station.dart';
 import 'package:hsl_frontend/view/journey_list_view.dart';
 import 'package:hsl_frontend/view/station_list_view.dart';
 
@@ -46,6 +47,17 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text("Journey List")),
+          SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddStation()),
+                );
+              },
+              child: Text("Add Station")),
         ],
       ),
     );
