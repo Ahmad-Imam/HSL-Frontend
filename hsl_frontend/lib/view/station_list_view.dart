@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hsl_frontend/main.dart';
 import 'package:hsl_frontend/model/station_list.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,16 +11,13 @@ import '../model/journey_list.dart';
 import '../model/journey_table_data.dart';
 import '../model/station_table_data.dart';
 
-class Station extends StatefulWidget {
-  const Station({super.key, required this.stationList});
-
-  final List<StationList> stationList;
-
+class StationListView extends StatefulWidget {
+  const StationListView({super.key});
   @override
-  State<Station> createState() => _StationState();
+  State<StationListView> createState() => _StationListViewState();
 }
 
-class _StationState extends State<Station> {
+class _StationListViewState extends State<StationListView> {
   // int compareString(bool ascending, String value1, String value2) {
   //   return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
   // }
@@ -77,7 +75,7 @@ class _StationState extends State<Station> {
             ],
 
             source: StationPaginationDataTable(
-                stationList: widget.stationList, context: context),
+                stationList: stationSnapshotData, context: context),
           ),
           const Text("hola"),
         ],

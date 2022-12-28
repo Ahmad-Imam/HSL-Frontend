@@ -27,9 +27,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Station(
-                                stationList: stationSnapshotData,
-                              )),
+                          builder: (context) => StationListView()),
                     );
                   },
                   child: Text("Station List"))),

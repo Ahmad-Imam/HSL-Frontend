@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-Future<List<StationList>> fetchStationList(http.Client client) async {
+Future<List<Station>> fetchStationList(http.Client client) async {
   final response = await client
       .get(Uri.parse('http://192.168.31.109:8080/sendStationListJson'));
   print(response.statusCode);
@@ -28,10 +28,10 @@ Future<List<StationList>> fetchStationList(http.Client client) async {
   return compute(parseStationList, response.body);
 }
 
-List<StationList> parseStationList(String responseBody) {
+List<Station> parseStationList(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
   // print(parsed);
-  return parsed.map<StationList>((json) => StationList.fromJson(json)).toList();
+  return parsed.map<Station>((json) => Station.fromJson(json)).toList();
 }
 
 Future<List<JourneyList>> fetchJourneyList(http.Client client) async {
@@ -48,7 +48,7 @@ List<JourneyList> parseJourneyList(String responseBody) {
   return parsed.map<JourneyList>((json) => JourneyList.fromJson(json)).toList();
 }
 
-late List<StationList> stationSnapshotData;
+late List<Station> stationSnapshotData;
 late List<JourneyList> journeySnapshotData;
 
 class _MyAppState extends State<MyApp> {
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: hasValue
-            ? HomePage()
+            ? const HomePage()
             // Station(
             //     stationList: stationSnapshotData,
             //   )
@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
                 body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     CircularProgressIndicator(),
                     SizedBox(
                       height: 20,

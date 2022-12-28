@@ -1,4 +1,4 @@
-class StationList {
+class Station {
   late String fid;
   late String id;
   late String nimi;
@@ -13,7 +13,7 @@ class StationList {
   late String x;
   late String y;
 
-  StationList(
+  Station(
       {required this.fid,
       required this.id,
       required this.nimi,
@@ -28,7 +28,7 @@ class StationList {
       required this.x,
       required this.y});
 
-  StationList.fromJson(Map<String, dynamic> json) {
+  Station.fromJson(Map<String, dynamic> json) {
     fid = json['fid'];
     id = json['id'];
     nimi = json['nimi'];

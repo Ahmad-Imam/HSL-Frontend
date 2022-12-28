@@ -13,7 +13,7 @@ class StationSingle extends StatefulWidget {
       required this.avgReturn,
       required this.totalDeparture,
       required this.totalReturn});
-  final StationList station;
+  final Station station;
   final double avgDeparture;
   final double avgReturn;
   final int totalDeparture;
