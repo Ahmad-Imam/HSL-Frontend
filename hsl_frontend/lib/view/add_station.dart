@@ -10,21 +10,27 @@ class AddStation extends StatelessWidget {
   Future<http.Response> postRequest() async {
     var url = 'http://192.168.31.109:8080/writeStationListJson';
     print(nimiTextEditingController.text);
-    Map data = {'nimi': nimiTextEditingController.text};
+
+    Map data = {
+      'fid': int.parse(stationSnapshotData.last.fid) + 1,
+      'id': int.parse(stationSnapshotData.last.id) + 1,
+      'nimi': nimiTextEditingController.text,
+      'namn': namnTextEditingController.text,
+      'name': nameTextEditingController.text,
+      'osoite': osoiteTextEditingController.text,
+      'address': addressTextEditingController.text,
+      'operaatto': operaattoTextEditingController.text,
+      'kaupunki': kaupunkiTextEditingController.text,
+      'stad': stadTextEditingController.text,
+      'kapasiteet': kapasiteetTextEditingController.text,
+      'x': xTextEditingController.text,
+      'y': yTextEditingController.text,
+    };
     //encode Map to JSON
     var body = json.encode(data);
 
     var response = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"}, body: body);
-    print("${response.statusCode}");
-    print("${response.body}");
-
-    _scaffoldKey.currentState!.showSnackBar(SnackBar(
-      content: Text(
-        'Station value added',
-      ),
-      duration: Duration(seconds: 2),
-    ));
 
     return response;
   }
@@ -249,26 +255,43 @@ class AddStation extends StatelessWidget {
               child: Container(
                 height: 50,
                 width: double.infinity,
-                child: RaisedButton(
-                  color: Colors.green,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.green)),
+                  ),
                   onPressed: () async {
-                    print(nimiTextEditingController.text);
-                    print(int.parse(stationSnapshotData.last.fid) + 1);
-                    postRequest();
+                    // print(nimiTextEditingController.text);
+                    // print(int.parse(stationSnapshotData.last.fid) + 1);
+                    var response = await postRequest();
 
-                    print("lololo");
-
-                    _scaffoldKey.currentState!.showSnackBar(SnackBar(
-                      content: Text(
-                        'Station information added. Restart the application to see the updated result',
-                      ),
-                      duration: Duration(seconds: 5),
-                    ));
-
-                    // Scaffold.of(context).showSnackBar(
-                    //     SnackBar(content: Text('Ticket Added Sucessfully')));
-
-                    // Navigator.pop(context);
+                    if (response.statusCode == 200) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text(
+                            'Station information added. Restart the application to see the updated result. Exit to return to previous page'),
+                        duration: const Duration(seconds: 10),
+                        action: SnackBarAction(
+                          label: 'Exit',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text(
+                            'Failed to add Station information. Please try again later. Exit to return to previous page'),
+                        duration: const Duration(seconds: 10),
+                        action: SnackBarAction(
+                          label: 'Exit',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ));
+                    }
 
                     // print(nimiTextEditingController.text +
                     //     namnTextEditingController.text +
@@ -286,9 +309,6 @@ class AddStation extends StatelessWidget {
                     'Submit',
                     style: TextStyle(color: Colors.white),
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(18.0),
-                      side: BorderSide(color: Colors.green)),
                 ),
               )),
         ],
