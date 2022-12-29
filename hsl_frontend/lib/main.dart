@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hsl_frontend/model/station_list.dart';
 import 'package:hsl_frontend/view/home.dart';
 import 'package:hsl_frontend/view/journey_list_view.dart';
-import 'package:hsl_frontend/view/station_list_view.dart';
 import 'package:http/http.dart' as http;
-import 'model/journey_list.dart';
+import 'model/journey.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +33,7 @@ List<Station> parseStationList(String responseBody) {
   return parsed.map<Station>((json) => Station.fromJson(json)).toList();
 }
 
-Future<List<JourneyList>> fetchJourneyList(http.Client client) async {
+Future<List<Journey>> fetchJourneyList(http.Client client) async {
   final response = await client
       .get(Uri.parse('http://192.168.31.109:8080/sendJourneyListJson'));
   print(response.statusCode);
@@ -42,14 +41,14 @@ Future<List<JourneyList>> fetchJourneyList(http.Client client) async {
   return compute(parseJourneyList, response.body);
 }
 
-List<JourneyList> parseJourneyList(String responseBody) {
+List<Journey> parseJourneyList(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
   // print(parsed);
-  return parsed.map<JourneyList>((json) => JourneyList.fromJson(json)).toList();
+  return parsed.map<Journey>((json) => Journey.fromJson(json)).toList();
 }
 
 late List<Station> stationSnapshotData;
-late List<JourneyList> journeySnapshotData;
+late List<Journey> journeySnapshotData;
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
@@ -60,11 +59,11 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement didChangeDependencies
     print("lol");
     var snapshotStation = await fetchStationList(http.Client());
-    // var snapshotJourney = await fetchJourneyList(http.Client());
+    var snapshotJourney = await fetchJourneyList(http.Client());
     setState(() {
       stationSnapshotData = snapshotStation;
       stationSnapshotData.removeLast();
-      // journeySnapshotData = snapshotJourney;
+      journeySnapshotData = snapshotJourney;
       hasValue = true;
     });
     // print(snapshotJourney.length);

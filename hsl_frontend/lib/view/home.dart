@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'package:hsl_frontend/view/add_journey.dart';
 import 'package:hsl_frontend/view/add_station.dart';
 import 'package:hsl_frontend/view/journey_list_view.dart';
 import 'package:hsl_frontend/view/station_list_view.dart';
-
-import '../main.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,8 +15,8 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Welcome to HSL Application",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+            "Welcome to HSL City Bike Application",
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
           ),
           SizedBox(
             height: 50,
@@ -38,10 +38,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => Journey(
-                            journeyList: journeySnapshotData,
-                          )),
+                  MaterialPageRoute(builder: (context) => JourneyListView()),
                 );
               },
               child: Text("Journey List")),
@@ -56,6 +53,17 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text("Add Station")),
+          SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddJourney()),
+                );
+              },
+              child: Text("Add Journey")),
         ],
       ),
     );

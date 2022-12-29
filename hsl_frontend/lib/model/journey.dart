@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-class JourneyList {
+class Journey {
   late String departureDate;
   late String returnDate;
   late String departureId;
@@ -10,7 +10,7 @@ class JourneyList {
   late String coverDistance;
   late String duration;
 
-  JourneyList(
+  Journey(
       {required this.departureDate,
       required this.returnDate,
       required this.departureId,
@@ -20,7 +20,7 @@ class JourneyList {
       required this.coverDistance,
       required this.duration});
 
-  JourneyList.fromJson(Map<String, dynamic> json) {
+  Journey.fromJson(Map<String, dynamic> json) {
     departureDate = json['departure_date'];
     returnDate = json['return_date'];
     departureId = json['departure_id'];

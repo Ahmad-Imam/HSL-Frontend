@@ -1,95 +1,80 @@
 import 'dart:convert';
-import 'package:hsl_frontend/model/station_list.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
+import 'package:hsl_frontend/model/journey.dart';
+import 'package:http/http.dart' as http;
 import '../main.dart';
+import '../model/station_list.dart';
 
-class AddStation extends StatefulWidget {
-  const AddStation({Key? key}) : super(key: key);
+class AddJourney extends StatefulWidget {
+  const AddJourney({Key? key}) : super(key: key);
 
   @override
-  State<AddStation> createState() => _AddStationState();
+  State<AddJourney> createState() => _AddJourneyState();
 }
 
-class _AddStationState extends State<AddStation> {
+class _AddJourneyState extends State<AddJourney> {
   clearTextField() {
-    nimiTextEditingController.clear();
-    namnTextEditingController.clear();
-    nameTextEditingController.clear();
-    osoiteTextEditingController.clear();
-    addressTextEditingController.clear();
-    operaattoTextEditingController.clear();
-    kaupunkiTextEditingController.clear();
-    stadTextEditingController.clear();
-    kapasiteetTextEditingController.clear();
-    xTextEditingController.clear();
-    yTextEditingController.clear();
+    departureDateTextEditingController.clear();
+    returnDateTextEditingController.clear();
+    departureIdTextEditingController.clear();
+    departureNameTextEditingController.clear();
+    returnIdTextEditingController.clear();
+    returnNameTextEditingController.clear();
+    coverDistanceTextEditingController.clear();
+    durationTextEditingController.clear();
   }
 
-  addToStationList() {
-    Station station = Station(
-        fid: (int.parse(stationSnapshotData.last.fid) + 1).toString(),
-        id: (int.parse(stationSnapshotData.last.id) + 1).toString(),
-        nimi: nimiTextEditingController.text,
-        namn: namnTextEditingController.text,
-        name: nameTextEditingController.text,
-        osoite: osoiteTextEditingController.text,
-        address: addressTextEditingController.text,
-        kaupunki: kaupunkiTextEditingController.text,
-        stad: stadTextEditingController.text,
-        operaatto: operaattoTextEditingController.text,
-        kapasiteet: kapasiteetTextEditingController.text,
-        x: xTextEditingController.text,
-        y: yTextEditingController.text);
-
+  addToJourneyList() {
+    Journey journey = Journey(
+        departureDate: departureDateTextEditingController.text,
+        returnDate: returnDateTextEditingController.text,
+        departureId: departureIdTextEditingController.text,
+        departureName: departureNameTextEditingController.text,
+        returnId: returnIdTextEditingController.text,
+        coverDistance: coverDistanceTextEditingController.text,
+        duration: durationTextEditingController.text,
+        returnName: returnNameTextEditingController.text);
     setState(() {
-      stationSnapshotData.add(station);
+      journeySnapshotData.add(journey);
     });
 
     clearTextField();
   }
 
   Future<http.Response> postRequest() async {
-    var url = 'http://192.168.31.109:8080/writeStationListJson';
-    print(nimiTextEditingController.text);
+    var url = 'http://192.168.31.109:8080/writeJourneyListJson';
+    print(departureDateTextEditingController.text);
 
     Map data = {
-      'fid': int.parse(stationSnapshotData.last.fid) + 1,
-      'id': int.parse(stationSnapshotData.last.id) + 1,
-      'nimi': nimiTextEditingController.text,
-      'namn': namnTextEditingController.text,
-      'name': nameTextEditingController.text,
-      'osoite': osoiteTextEditingController.text,
-      'address': addressTextEditingController.text,
-      'operaatto': operaattoTextEditingController.text,
-      'kaupunki': kaupunkiTextEditingController.text,
-      'stad': stadTextEditingController.text,
-      'kapasiteet': kapasiteetTextEditingController.text,
-      'x': xTextEditingController.text,
-      'y': yTextEditingController.text,
+      'departureDate': departureDateTextEditingController.text,
+      'returnDate': returnDateTextEditingController.text,
+      'departureId': departureIdTextEditingController.text,
+      'departureName': departureNameTextEditingController.text,
+      'returnIdText': returnIdTextEditingController.text,
+      'returnName': returnNameTextEditingController.text,
+      'coverDistance': coverDistanceTextEditingController.text,
+      'duration': durationTextEditingController.text,
     };
-    //encode Map to JSON
-    var body = json.encode(data);
 
+    var body = json.encode(data);
     var response = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"}, body: body);
-
     return response;
   }
 
-  TextEditingController nimiTextEditingController = TextEditingController();
-  TextEditingController namnTextEditingController = TextEditingController();
-  TextEditingController nameTextEditingController = TextEditingController();
-  TextEditingController osoiteTextEditingController = TextEditingController();
-  TextEditingController addressTextEditingController = TextEditingController();
-  TextEditingController kaupunkiTextEditingController = TextEditingController();
-  TextEditingController stadTextEditingController = TextEditingController();
-  TextEditingController xTextEditingController = TextEditingController();
-  TextEditingController yTextEditingController = TextEditingController();
-  TextEditingController operaattoTextEditingController =
+  TextEditingController departureDateTextEditingController =
       TextEditingController();
-  TextEditingController kapasiteetTextEditingController =
+  TextEditingController returnDateTextEditingController =
+      TextEditingController();
+  TextEditingController departureIdTextEditingController =
+      TextEditingController();
+  TextEditingController departureNameTextEditingController =
+      TextEditingController();
+  TextEditingController returnIdTextEditingController = TextEditingController();
+  TextEditingController coverDistanceTextEditingController =
+      TextEditingController();
+  TextEditingController durationTextEditingController = TextEditingController();
+  TextEditingController returnNameTextEditingController =
       TextEditingController();
 
   @override
@@ -119,11 +104,11 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: nimiTextEditingController,
+                          controller: departureDateTextEditingController,
                           decoration: const InputDecoration(
-                            hintText: "Enter the nimi of station",
+                            hintText: "Departure date (YY-MM-DDTHH:MM:SS)",
                             border: InputBorder.none,
-                            labelText: 'Nimi',
+                            labelText: 'Departure Date',
                           ))))),
           Padding(
               padding: const EdgeInsets.all(10),
@@ -136,11 +121,11 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: namnTextEditingController,
+                          controller: returnDateTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Namn',
-                            hintText: "Enter the namn of station",
+                            labelText: 'Return Date',
+                            hintText: "Return date (YY-MM-DDTHH:MM:SS)",
                           ))))),
           Padding(
               padding: const EdgeInsets.all(10),
@@ -153,11 +138,11 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: nameTextEditingController,
+                          controller: departureIdTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Name',
-                            hintText: "Enter the name of station",
+                            labelText: 'Departure Id',
+                            hintText: "Enter the departure id of journey",
                           ))))),
           Padding(
               padding: const EdgeInsets.all(10),
@@ -170,11 +155,12 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: osoiteTextEditingController,
+                          controller: departureNameTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Osoite',
-                            hintText: "Enter the osoite of station",
+                            labelText: 'Departure Station Name',
+                            hintText:
+                                "Enter the departure station name of journey",
                           ))))),
           Padding(
               padding: const EdgeInsets.all(10),
@@ -187,11 +173,11 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: addressTextEditingController,
+                          controller: returnIdTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Address',
-                            hintText: "Enter the address of station",
+                            labelText: 'Return Id',
+                            hintText: "Enter the return id of journey",
                           ))))),
           Padding(
               padding: const EdgeInsets.all(10),
@@ -204,11 +190,12 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: kaupunkiTextEditingController,
+                          controller: coverDistanceTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Kaupunki',
-                            hintText: "Enter the kaupunki of station",
+                            labelText: 'Return Station Name',
+                            hintText:
+                                "Enter the return station name of journey",
                           ))))),
           Padding(
               padding: const EdgeInsets.all(10),
@@ -221,11 +208,12 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: stadTextEditingController,
+                          controller: durationTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Stad',
-                            hintText: "Enter the stad of station",
+                            labelText: 'Cover Distance (meter)',
+                            hintText:
+                                "Enter the cover distance of journey (meter)",
                           ))))),
           Padding(
               padding: const EdgeInsets.all(10),
@@ -238,62 +226,11 @@ class _AddStationState extends State<AddStation> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: operaattoTextEditingController,
+                          controller: returnNameTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Operaatto',
-                            hintText: "Enter the operaatto of station",
-                          ))))),
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 224, 242, 255),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 5),
-                      child: TextField(
-                          controller: kapasiteetTextEditingController,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Kapasiteet',
-                            hintText: "Enter the kapasiteet of station",
-                          ))))),
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 224, 242, 255),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 5),
-                      child: TextField(
-                          controller: xTextEditingController,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'X',
-                            hintText: "Enter the x (Longitude) of station",
-                          ))))),
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 224, 242, 255),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 5),
-                      child: TextField(
-                          controller: yTextEditingController,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Y',
-                            hintText: "Enter the y (Lattitude) of station",
+                            labelText: 'Duration (second)',
+                            hintText: "Enter the duration of journey (second)",
                           ))))),
           //submit button
           Padding(
@@ -311,11 +248,11 @@ class _AddStationState extends State<AddStation> {
                   onPressed: () async {
                     var response = await postRequest();
                     if (response.statusCode == 200) {
-                      addToStationList();
+                      addToJourneyList();
 
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Text(
-                            'Station information added. Exit to return to previous page'),
+                            'Journey information added. Exit to return to previous page'),
                         duration: const Duration(seconds: 10),
                         action: SnackBarAction(
                           label: 'Exit',
@@ -327,7 +264,7 @@ class _AddStationState extends State<AddStation> {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Text(
-                            'Failed to add Station information. Please try again later. Exit to return to previous page'),
+                            'Failed to add Journey information. Please try again later. Exit to return to previous page'),
                         duration: const Duration(seconds: 10),
                         action: SnackBarAction(
                           label: 'Exit',
