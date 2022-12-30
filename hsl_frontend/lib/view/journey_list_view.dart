@@ -1,12 +1,7 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hsl_frontend/main.dart';
-import 'package:http/http.dart' as http;
 
-import '../model/journey.dart';
+import 'package:hsl_frontend/view/loading_screen.dart';
+
 import '../model/journey_table_data.dart';
 
 class JourneyListView extends StatefulWidget {
@@ -33,7 +28,7 @@ class _JourneyListViewState extends State<JourneyListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Journey List"),
+        title: const Text("Journey List"),
         centerTitle: true,
         actions: [
           TextButton(
@@ -85,10 +80,10 @@ class _JourneyListViewState extends State<JourneyListView> {
             // sortAscending: sortAscending,
             rowsPerPage: 1000,
             columns: [
-              DataColumn(
+              const DataColumn(
                 label: Text("Entry "),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text("Departure Station Name"),
                 // onSort: (int columnIndex, bool ascending) {
                 //   setState(() {
@@ -101,28 +96,24 @@ class _JourneyListViewState extends State<JourneyListView> {
                 // }
               ),
               DataColumn(
-                  label: Text("Departure Station Id"),
-                  onSort: (int a, bool b) {
-                    var data = journeySnapshotData.where(
-                        (row) => (row.departureName.contains("Näkinsilta")));
-                    print(data.length);
-                  }),
-              DataColumn(
+                  label: const Text("Departure Station Id"),
+                  onSort: (int a, bool b) {}),
+              const DataColumn(
                 label: Text("Departure Date"),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text("Return Station Name"),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text("Return Station Id"),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text("Return date"),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text("Cover Distance (kilometer)"),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text("Duration (minute)"),
               ),
             ],

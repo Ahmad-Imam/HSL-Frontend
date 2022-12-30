@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hsl_frontend/model/journey.dart';
+import 'package:hsl_frontend/view/loading_screen.dart';
 import 'package:http/http.dart' as http;
-import '../main.dart';
-import '../model/station_list.dart';
+
+import 'ip_address.dart';
 
 class AddJourney extends StatefulWidget {
   const AddJourney({Key? key}) : super(key: key);
@@ -42,8 +45,7 @@ class _AddJourneyState extends State<AddJourney> {
   }
 
   Future<http.Response> postRequest() async {
-    var url = 'http://192.168.31.109:8080/writeJourneyListJson';
-    print(departureDateTextEditingController.text);
+    var url = 'http://$ipAddress:8080/writeJourneyListJson';
 
     Map data = {
       'departureDate': departureDateTextEditingController.text,
@@ -80,13 +82,17 @@ class _AddJourneyState extends State<AddJourney> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Create Journey"),
+        centerTitle: true,
+      ),
       body: ListView(
         children: <Widget>[
           const SizedBox(
             height: 50,
           ),
           const Text(
-            "Please enter the details of station",
+            "Please enter the details of journey",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
@@ -139,6 +145,7 @@ class _AddJourneyState extends State<AddJourney> {
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
                           controller: departureIdTextEditingController,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Departure Id',
@@ -174,6 +181,7 @@ class _AddJourneyState extends State<AddJourney> {
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
                           controller: returnIdTextEditingController,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Return Id',
@@ -190,7 +198,7 @@ class _AddJourneyState extends State<AddJourney> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: coverDistanceTextEditingController,
+                          controller: returnNameTextEditingController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Return Station Name',
@@ -208,7 +216,8 @@ class _AddJourneyState extends State<AddJourney> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: durationTextEditingController,
+                          controller: coverDistanceTextEditingController,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Cover Distance (meter)',
@@ -226,7 +235,8 @@ class _AddJourneyState extends State<AddJourney> {
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
-                          controller: returnNameTextEditingController,
+                          controller: durationTextEditingController,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Duration (second)',
@@ -235,7 +245,7 @@ class _AddJourneyState extends State<AddJourney> {
           //submit button
           Padding(
               padding: const EdgeInsets.all(10),
-              child: Container(
+              child: SizedBox(
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(
@@ -277,7 +287,7 @@ class _AddJourneyState extends State<AddJourney> {
                   },
                   child: const Text(
                     'Submit',
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               )),

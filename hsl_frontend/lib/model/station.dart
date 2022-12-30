@@ -45,20 +45,20 @@ class Station {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['fid'] = this.fid;
-    data['id'] = this.id;
-    data['nimi'] = this.nimi;
-    data['namn'] = this.namn;
-    data['name'] = this.name;
-    data['osoite'] = this.osoite;
-    data['address'] = this.address;
-    data['kaupunki'] = this.kaupunki;
-    data['stad'] = this.stad;
-    data['operaatto'] = this.operaatto;
-    data['kapasiteet'] = this.kapasiteet;
-    data['x'] = this.x;
-    data['y'] = this.y;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['fid'] = fid;
+    data['id'] = id;
+    data['nimi'] = nimi;
+    data['namn'] = namn;
+    data['name'] = name;
+    data['osoite'] = osoite;
+    data['address'] = address;
+    data['kaupunki'] = kaupunki;
+    data['stad'] = stad;
+    data['operaatto'] = operaatto;
+    data['kapasiteet'] = kapasiteet;
+    data['x'] = x;
+    data['y'] = y;
     return data;
   }
 }

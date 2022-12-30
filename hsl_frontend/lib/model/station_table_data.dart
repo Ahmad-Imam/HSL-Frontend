@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hsl_frontend/model/station_list.dart';
 
-import '../main.dart';
+import 'package:hsl_frontend/view/loading_screen.dart';
+
 import '../view/station_single_view.dart';
 
 class StationPaginationDataTable extends DataTableSource {
-  var stationList;
   BuildContext context;
   StationPaginationDataTable({
-    required this.stationList,
     required this.context,
   });
 
@@ -17,7 +15,6 @@ class StationPaginationDataTable extends DataTableSource {
     if (stationList.length == 0) return 0;
     stationList.forEach(
       (element) {
-        // print(element.coverDistance);
         avgDepartureDistance += double.parse(element.coverDistance);
       },
     );
@@ -29,7 +26,6 @@ class StationPaginationDataTable extends DataTableSource {
     if (stationList.length == 0) return 0;
     stationList.forEach(
       (element) {
-        // print(element.coverDistance);
         avgReturnDistance += double.parse(element.coverDistance);
       },
     );
@@ -40,34 +36,23 @@ class StationPaginationDataTable extends DataTableSource {
   DataRow? getRow(int index) {
     return DataRow(
         onSelectChanged: (newValue) {
-          print("row pressed: $newValue");
-          // print("${stationList[index].fid.toString()}");
           var departureListFiltered = journeySnapshotData
-              .where((e) => e.departureName == stationList[index].nimi)
+              .where((e) => e.departureName == stationSnapshotData[index].nimi)
               .toList();
 
           var returnListFiltered = journeySnapshotData
-              .where((e) => e.returnName == stationList[index].nimi)
+              .where((e) => e.returnName == stationSnapshotData[index].nimi)
               .toList();
           var avgDepartureDistance =
               calculateAvgDeparture(departureListFiltered);
 
           var avgReturnDistance = calculateAvgReturn(returnListFiltered);
 
-          print(returnListFiltered.length);
-          print(departureListFiltered.length);
-          print(avgDepartureDistance);
-
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => MapSample()),
-          // );
-
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => StationSingle(
-                      station: stationList[index],
+                      station: stationSnapshotData[index],
                       avgDeparture: avgDepartureDistance,
                       avgReturn: avgReturnDistance,
                       totalDeparture: departureListFiltered.length,
@@ -76,14 +61,14 @@ class StationPaginationDataTable extends DataTableSource {
           );
         },
         cells: [
-          DataCell(Text(stationList[index].fid.toString())),
-          DataCell(Text(stationList[index].id.toString())),
-          DataCell(Text(stationList[index].nimi.toString())),
-          DataCell(Text(stationList[index].namn.toString())),
-          DataCell(Text(stationList[index].name.toString())),
-          DataCell(Text(stationList[index].osoite.toString())),
-          DataCell(Text(stationList[index].address.toString())),
-          DataCell(Text(stationList[index].kaupunki.toString())),
+          DataCell(Text(stationSnapshotData[index].fid.toString())),
+          DataCell(Text(stationSnapshotData[index].id.toString())),
+          DataCell(Text(stationSnapshotData[index].nimi.toString())),
+          DataCell(Text(stationSnapshotData[index].namn.toString())),
+          DataCell(Text(stationSnapshotData[index].name.toString())),
+          DataCell(Text(stationSnapshotData[index].osoite.toString())),
+          DataCell(Text(stationSnapshotData[index].address.toString())),
+          DataCell(Text(stationSnapshotData[index].kaupunki.toString())),
         ]);
   }
 
@@ -91,7 +76,7 @@ class StationPaginationDataTable extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => stationList.length;
+  int get rowCount => stationSnapshotData.length;
 
   @override
   int get selectedRowCount => 0;

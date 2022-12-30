@@ -1,14 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hsl_frontend/main.dart';
-import 'package:hsl_frontend/model/station_list.dart';
-import 'package:http/http.dart' as http;
-
-import '../model/journey.dart';
-import '../model/journey_table_data.dart';
 import '../model/station_table_data.dart';
 
 class StationListView extends StatefulWidget {
@@ -36,6 +26,10 @@ class _StationListViewState extends State<StationListView> {
       appBar: AppBar(
         title: const Text("Station List"),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.chevron_left),
+          onPressed: () => Navigator.pop(context, false),
+        ),
         actions: [
           TextButton(
             child: Row(
@@ -63,10 +57,12 @@ class _StationListViewState extends State<StationListView> {
             onPressed: () {
               if (scrollTop) {
                 scrollController.jumpTo(0);
+                if (!mounted) return;
                 setState(() {
                   scrollTop = false;
                 });
               } else {
+                if (!mounted) return;
                 setState(() {
                   scrollTop = true;
                 });
@@ -100,10 +96,10 @@ class _StationListViewState extends State<StationListView> {
               label: Text("nimi"),
             ),
             const DataColumn(
-              label: const Text("namn"),
+              label: Text("namn"),
             ),
             const DataColumn(
-              label: const Text("name"),
+              label: Text("name"),
             ),
             const DataColumn(
               label: Text("osoite"),
@@ -112,12 +108,11 @@ class _StationListViewState extends State<StationListView> {
               label: Text("address"),
             ),
             const DataColumn(
-              label: const Text("kaupunki"),
+              label: Text("kaupunki"),
             ),
           ],
 
-          source: StationPaginationDataTable(
-              stationList: stationSnapshotData, context: context),
+          source: StationPaginationDataTable(context: context),
         ),
       ),
     );

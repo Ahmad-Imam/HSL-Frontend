@@ -32,15 +32,15 @@ class Journey {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['departure_date'] = this.departureDate;
-    data['return_date'] = this.returnDate;
-    data['departure_id'] = this.departureId;
-    data['departure_name'] = this.departureName;
-    data['return_id'] = this.returnId;
-    data['return_name'] = this.returnName;
-    data['cover_distance'] = this.coverDistance;
-    data['duration'] = this.duration;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['departure_date'] = departureDate;
+    data['return_date'] = returnDate;
+    data['departure_id'] = departureId;
+    data['departure_name'] = departureName;
+    data['return_id'] = returnId;
+    data['return_name'] = returnName;
+    data['cover_distance'] = coverDistance;
+    data['duration'] = duration;
     return data;
   }
 }

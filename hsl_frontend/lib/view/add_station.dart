@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, unnecessary_const
+
 import 'dart:convert';
-import 'package:hsl_frontend/model/station_list.dart';
+import 'package:hsl_frontend/model/station.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
-import '../main.dart';
+import 'ip_address.dart';
+import 'loading_screen.dart';
 
 class AddStation extends StatefulWidget {
   const AddStation({Key? key}) : super(key: key);
@@ -51,8 +53,7 @@ class _AddStationState extends State<AddStation> {
   }
 
   Future<http.Response> postRequest() async {
-    var url = 'http://192.168.31.109:8080/writeStationListJson';
-    print(nimiTextEditingController.text);
+    var url = 'http://$ipAddress:8080/writeStationListJson';
 
     Map data = {
       'fid': int.parse(stationSnapshotData.last.fid) + 1,
@@ -95,6 +96,10 @@ class _AddStationState extends State<AddStation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Create Station"),
+        centerTitle: true,
+      ),
       body: ListView(
         children: <Widget>[
           const SizedBox(
@@ -273,6 +278,7 @@ class _AddStationState extends State<AddStation> {
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
                           controller: xTextEditingController,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'X',
@@ -290,6 +296,7 @@ class _AddStationState extends State<AddStation> {
                           const EdgeInsets.only(left: 15, right: 15, top: 5),
                       child: TextField(
                           controller: yTextEditingController,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Y',
@@ -298,7 +305,7 @@ class _AddStationState extends State<AddStation> {
           //submit button
           Padding(
               padding: const EdgeInsets.all(10),
-              child: Container(
+              child: SizedBox(
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(

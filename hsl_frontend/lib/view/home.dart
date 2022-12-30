@@ -14,11 +14,11 @@ class HomePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             "Welcome to HSL City Bike Application",
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Center(
@@ -27,43 +27,44 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StationListView()),
+                          builder: (context) => const StationListView()),
                     );
                   },
-                  child: Text("Station List"))),
-          SizedBox(
+                  child: const Text("Station List"))),
+          const SizedBox(
             height: 20,
           ),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => JourneyListView()),
+                  MaterialPageRoute(
+                      builder: (context) => const JourneyListView()),
                 );
               },
-              child: Text("Journey List")),
-          SizedBox(
+              child: const Text("Journey List")),
+          const SizedBox(
             height: 20,
           ),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddStation()),
+                  MaterialPageRoute(builder: (context) => const AddStation()),
                 );
               },
-              child: Text("Add Station")),
-          SizedBox(
+              child: const Text("Add Station")),
+          const SizedBox(
             height: 20,
           ),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddJourney()),
+                  MaterialPageRoute(builder: (context) => const AddJourney()),
                 );
               },
-              child: Text("Add Journey")),
+              child: const Text("Add Journey")),
         ],
       ),
     );

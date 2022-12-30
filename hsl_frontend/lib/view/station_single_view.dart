@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../model/station_list.dart';
+import '../model/station.dart';
 
 class StationSingle extends StatefulWidget {
   const StationSingle(
@@ -31,7 +31,6 @@ class _StationSingleState extends State<StationSingle> {
 
   @override
   void initState() {
-    // TODO: implement initState
     if (double.tryParse(widget.station.y) != null ||
         double.tryParse(widget.station.y) != null) {
       setState(() {
@@ -49,15 +48,11 @@ class _StationSingleState extends State<StationSingle> {
       target: LatLng(double.parse(lat), double.parse(lng)),
       tilt: 0,
       zoom: 19.151926040649414);
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 228, 246, 255),
+      backgroundColor: const Color.fromARGB(255, 228, 246, 255),
       body: ListView(
         // mainAxisAlignment: MainAxisAlignment.center,
         // crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,24 +60,24 @@ class _StationSingleState extends State<StationSingle> {
           double.parse(lat) == 0 || double.parse(lng) == 0
               ? Column(
                   children: [
-                    SizedBox(height: 150),
+                    const SizedBox(height: 150),
                     Container(
                       alignment: Alignment.center,
                       child: Text(
                         "No location found with Lattitude: ${widget.station.y} and Longitude: ${widget.station.x}",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                   ],
                 )
               : Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * .6,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(),
+                  decoration: const BoxDecoration(),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(50),
@@ -103,66 +98,66 @@ class _StationSingleState extends State<StationSingle> {
                     ),
                   ),
                 ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           ExpansionTile(
             initiallyExpanded: true,
             title: Text(
-              "${widget.station.name}",
-              style: TextStyle(
+              widget.station.name,
+              style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            subtitle: Text(
+            subtitle: const Text(
               "Station",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),
-            childrenPadding: EdgeInsets.all(0),
+            childrenPadding: const EdgeInsets.all(0),
             children: <Widget>[
               ListTile(
-                title: Text(
+                title: const Text(
                   "Address: ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 trailing: Text(
-                  "${widget.station.address}",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  widget.station.address,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Total Departure: ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 trailing: Text(
                   "${widget.totalDeparture}",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Total Return: ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 trailing: Text(
                   "${widget.totalReturn}",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Average Distance of Departures: ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 trailing: Text(
                   "${widget.avgDeparture.floorToDouble()}",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Average Distance of Returns: ",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
@@ -170,7 +165,7 @@ class _StationSingleState extends State<StationSingle> {
                 ),
                 trailing: Text(
                   "${widget.avgReturn.floorToDouble()}",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
