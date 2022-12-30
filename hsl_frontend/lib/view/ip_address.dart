@@ -68,10 +68,11 @@ class _IpAddressState extends State<IpAddress> {
                       setState(() {
                         ipAddress = textEditingController.text;
                       });
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const LoadingScreen()),
+                        ModalRoute.withName("/Home"),
                       );
                     },
                   ),

@@ -60,7 +60,44 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: hasValue
-          ? const HomePage()
+          ? WillPopScope(
+              onWillPop: () async {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Close the Application'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return false;
+              },
+              child: Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        child: const Text("Explore"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        "Thank you for your patience !!!",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
           : Scaffold(
               body: Center(
                 child: Column(
@@ -70,7 +107,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Please wait a moment while the data is configured")
+                    Text(
+                      "Please wait a moment while the data is configured",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    )
                   ],
                 ),
               ),

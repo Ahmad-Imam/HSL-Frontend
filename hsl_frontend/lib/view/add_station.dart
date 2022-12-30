@@ -97,6 +97,10 @@ class _AddStationState extends State<AddStation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.chevron_left),
+          onPressed: () => Navigator.pop(context, false),
+        ),
         title: const Text("Create Station"),
         centerTitle: true,
       ),

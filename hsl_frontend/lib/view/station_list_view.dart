@@ -20,6 +20,7 @@ class _StationListViewState extends State<StationListView> {
   // bool sortAscending = false;
   ScrollController scrollController = ScrollController();
   bool scrollTop = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +28,7 @@ class _StationListViewState extends State<StationListView> {
         title: const Text("Station List"),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           onPressed: () => Navigator.pop(context, false),
         ),
         actions: [
