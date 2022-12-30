@@ -30,6 +30,10 @@ class _JourneyListViewState extends State<JourneyListView> {
       appBar: AppBar(
         title: const Text("Journey List"),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.chevron_left),
+          onPressed: () => Navigator.pop(context, false),
+        ),
         actions: [
           TextButton(
             child: Row(
