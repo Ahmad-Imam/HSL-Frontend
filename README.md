@@ -19,15 +19,15 @@ samples, guidance on mobile development, and a full API reference.
 7. You can also run the main.dart file
 8. You can also skip all the steps and directly install the apk - hsl_frontend
 9. Enter the port number from backend and the common ip address with backend
-10. Wait a few moments to establish connection and fetch data.
+10. Wait for a few moments to establish connection and fetch data.
 11. Enjoy
  
 ## Frontend Features
 1. 4 different functionality
  
-2. Journey List shows all the journeys included in the a.csv file. For clarification a.csv is the first csv file given in the exercise github (https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv). Scroll left to right to view all the information. Scroll top to bottom to see all the journeys. All of them are in a pagination. Click on the top right icon to go to the first/last part of the page.
+2. Journey List shows all the journeys included in the first csv file given in the exercise github (https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv). Scroll left to right to view all the information. Scroll top to bottom to see all the journeys. All of them are in a pagination. Click on the top right icon to go to the first/last part of the page.
  
-3. Station List shows all the station information included in the b.csv file. It is the dataset about station information given in the exercise github. (https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv). Scroll left to right to view all the information. Scroll top to bottom to see all the journeys. All of them are in a pagination. Click on the top right icon to go to the first/last part of the page. Click on a row to view specific information about a station.
+3. Station List shows all the station information included in the dataset about station information given in the exercise github. (https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv). Scroll left to right to view all the information. Scroll top to bottom to see all the journeys. All of them are in a pagination. Click on the top right icon to go to the first/last part of the page. Click on a row to view specific information about a station.
  
 4. Single station has properties like station name, address, station location on the map ,total number of journeys starting from the station, total number of journeys ending at the stationStation location on the map, the average distance of a journey starting from the station, the average distance of a journey ending at the station on the page.
  
@@ -40,19 +40,19 @@ samples, guidance on mobile development, and a full API reference.
 
 
 
-|  <img src="https://user-images.githubusercontent.com/38004971/210276448-1ab43bfe-ce22-48c4-89a0-59e5833d4541.jpg" width=50% height=50%> |
+|  <img src="https://user-images.githubusercontent.com/38004971/210276448-1ab43bfe-ce22-48c4-89a0-59e5833d4541.jpg" width=30% height=30%> |
 |:--:|
 | *IP ADDRESS SCREEN* |
  
-|  <img src="https://user-images.githubusercontent.com/38004971/210276530-0ee31162-7a4b-41c0-884f-9fb0e4305e84.jpg" width=50% height=50%> |
+|  <img src="https://user-images.githubusercontent.com/38004971/210276530-0ee31162-7a4b-41c0-884f-9fb0e4305e84.jpg" width=30% height=30%> |
 |:--:|
 | *HOME SCREEN* |
  
-| <img src="https://user-images.githubusercontent.com/38004971/210276539-66fb20c7-e8e6-4636-b9f9-6f4e821dd9fb.jpg" width=50% height=50%> |
+| <img src="https://user-images.githubusercontent.com/38004971/210276539-66fb20c7-e8e6-4636-b9f9-6f4e821dd9fb.jpg" width=30% height=30%> |
 |:--:|
 | *STATION LIST SCREEN* |
  
-|  <img src="https://user-images.githubusercontent.com/38004971/210276542-84b6552f-8cca-4d2d-b11a-95e399432fad.jpg" width=50% height=50%> |
+|  <img src="https://user-images.githubusercontent.com/38004971/210276542-84b6552f-8cca-4d2d-b11a-95e399432fad.jpg" width=30% height=30%> |
 |:--:|
 | *ADD STATION SCREEN* |
  
