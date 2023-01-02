@@ -3,7 +3,7 @@
 Backend: [Backend Repository](https://github.com/Ahmad-Imam/HSL-Backend)
  
 ## Frontend Information
-The project uses Flutter and is developed as a mobile application. You can run the frontend on android by installing flutter and dart on your local machine and run the main file.
+The project uses Flutter and is developed as a mobile application. You can run the frontend on android by installing flutter and dart on your local machine and run the main file. Or you can directly install the hsl_frontend apk on your android device.
  
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
@@ -33,7 +33,7 @@ samples, guidance on mobile development, and a full API reference.
  
 5. Add Journey enables to create new journey information based on the user input. The new journey data can be instantly viewed in the journey list and the information is also sent to the backend and written on the csv file.
  
-6. Add Station enables to create new station information based on the user input. The new journey data can be instantly viewed in the journey list and the information is also sent to the backend and written on the csv file.
+6. Add Station enables to create new station information based on the user input. The new station data can be instantly viewed in the station list and the information is also sent to the backend and written on the csv file.
  
 ## Sample Screenshots
 
