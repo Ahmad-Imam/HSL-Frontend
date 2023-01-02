@@ -53,7 +53,7 @@ class _AddStationState extends State<AddStation> {
   }
 
   Future<http.Response> postRequest() async {
-    var url = 'http://$ipAddress:8080/writeStationListJson';
+    var url = 'http://$ipAddress:$port/writeStationListJson';
 
     Map data = {
       'fid': int.parse(stationSnapshotData.last.fid) + 1,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hsl_frontend/view/loading_screen.dart';
 
 String ipAddress = "";
+String port = "";
 
 class IpAddress extends StatefulWidget {
   const IpAddress({Key? key}) : super(key: key);
@@ -11,11 +12,12 @@ class IpAddress extends StatefulWidget {
 }
 
 class _IpAddressState extends State<IpAddress> {
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController ipTextEditingController = TextEditingController();
+  TextEditingController portTextEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'HSL-City Bike',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -40,13 +42,41 @@ class _IpAddressState extends State<IpAddress> {
                         padding:
                             const EdgeInsets.only(left: 15, right: 15, top: 5),
                         child: TextField(
-                            controller: textEditingController,
+                            controller: ipTextEditingController,
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               hintText: "Enter the ip address",
                               border: InputBorder.none,
                               labelText: 'IP',
                             ))))),
+            Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 224, 242, 255),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 5),
+                        child: TextField(
+                            controller: portTextEditingController,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              hintText: "Enter the port number of local host",
+                              border: InputBorder.none,
+                              labelText: 'PORT',
+                            ))))),
+            const Padding(
+              padding: EdgeInsets.all(15),
+              child: Text(
+                "I do not store this IP Address anywhere in the application. Backend is run locally and the application needs the user's ip address to fetch data from there after running the server. \n \n PS: Note that both the application and the backend needs to be connected in the same wifi connection/ip address",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
             Padding(
                 padding: const EdgeInsets.all(10),
                 child: SizedBox(
@@ -66,7 +96,8 @@ class _IpAddressState extends State<IpAddress> {
                     onPressed: () {
                       if (!mounted) return;
                       setState(() {
-                        ipAddress = textEditingController.text;
+                        ipAddress = ipTextEditingController.text;
+                        port = portTextEditingController.text;
                       });
                       Navigator.pushAndRemoveUntil(
                         context,

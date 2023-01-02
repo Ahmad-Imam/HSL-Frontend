@@ -16,8 +16,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 Future<List<Station>> fetchStationList(http.Client client) async {
-  final response =
-      await client.get(Uri.parse('http://$ipAddress:8080/sendStationListJson'));
+  final response = await client
+      .get(Uri.parse('http://$ipAddress:$port/sendStationListJson'));
   return compute(parseStationList, response.body);
 }
 
@@ -27,8 +27,8 @@ List<Station> parseStationList(String responseBody) {
 }
 
 Future<List<Journey>> fetchJourneyList(http.Client client) async {
-  final response =
-      await client.get(Uri.parse('http://$ipAddress:8080/sendJourneyListJson'));
+  final response = await client
+      .get(Uri.parse('http://$ipAddress:$port/sendJourneyListJson'));
 
   return compute(parseJourneyList, response.body);
 }
@@ -41,10 +41,18 @@ List<Journey> parseJourneyList(String responseBody) {
 late List<Station> stationSnapshotData;
 late List<Journey> journeySnapshotData;
 bool hasValue = false;
+String loadingText = "Please wait a moment while the data is configured";
 
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void didChangeDependencies() async {
+    Future.delayed(const Duration(seconds: 90), () {
+      setState(() {
+        loadingText =
+            "Failed to connect. Check backend to see if it is running properly or if you have submitted your ip address and port number correctly";
+      });
+    });
+
     var snapshotStation = await fetchStationList(http.Client());
     var snapshotJourney = await fetchJourneyList(http.Client());
     setState(() {
@@ -53,6 +61,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       journeySnapshotData = snapshotJourney;
       hasValue = true;
     });
+
     super.didChangeDependencies();
   }
 
@@ -60,41 +69,30 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: hasValue
-          ? WillPopScope(
-              onWillPop: () async {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Close the Application'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                return false;
-              },
-              child: Scaffold(
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        child: const Text("Explore"),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "Thank you for your patience !!!",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
+          ? Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      child: const Text("Explore"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      "Thank you for your patience !!!",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    )
+                  ],
                 ),
               ),
             )
@@ -102,16 +100,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     CircularProgressIndicator(),
                     SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Please wait a moment while the data is configured",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    )
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        loadingText,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
                   ],
                 ),
               ),

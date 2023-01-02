@@ -10,62 +10,74 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            "Welcome to HSL City Bike Application",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+    return WillPopScope(
+      onWillPop: () async {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Close the Application'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
           ),
-          const SizedBox(
-            height: 50,
-          ),
-          Center(
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StationListView()),
-                    );
-                  },
-                  child: const Text("Station List"))),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const JourneyListView()),
-                );
-              },
-              child: const Text("Journey List")),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddStation()),
-                );
-              },
-              child: const Text("Add Station")),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddJourney()),
-                );
-              },
-              child: const Text("Add Journey")),
-        ],
+        );
+        return false;
+      },
+      child: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Welcome to HSL City Bike Application",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Center(
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const StationListView()),
+                      );
+                    },
+                    child: const Text("Station List"))),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const JourneyListView()),
+                  );
+                },
+                child: const Text("Journey List")),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddStation()),
+                  );
+                },
+                child: const Text("Add Station")),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddJourney()),
+                  );
+                },
+                child: const Text("Add Journey")),
+          ],
+        ),
       ),
     );
   }

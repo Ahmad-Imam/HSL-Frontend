@@ -121,8 +121,7 @@ class _JourneyListViewState extends State<JourneyListView> {
                 label: Text("Duration (minute)"),
               ),
             ],
-            source:
-                JourneyPaginationDataTable(journeyList: journeySnapshotData)),
+            source: JourneyPaginationDataTable()),
       ),
     );
   }

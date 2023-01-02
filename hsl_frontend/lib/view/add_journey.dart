@@ -45,7 +45,7 @@ class _AddJourneyState extends State<AddJourney> {
   }
 
   Future<http.Response> postRequest() async {
-    var url = 'http://$ipAddress:8080/writeJourneyListJson';
+    var url = 'http://$ipAddress:$port/writeJourneyListJson';
 
     Map data = {
       'departureDate': departureDateTextEditingController.text,
