@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:hsl_frontend/view/loading_screen.dart';
-
 import '../model/journey_table_data.dart';
 
 class JourneyListView extends StatefulWidget {
@@ -12,16 +10,6 @@ class JourneyListView extends StatefulWidget {
 }
 
 class _JourneyListViewState extends State<JourneyListView> {
-  // int compareString(bool ascending, String value1, String value2) {
-  //   return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
-  // }
-
-  // int compareInt(bool ascending, int value1, int value2) {
-  //   return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
-  // }
-
-  // int? sortColumnIndex = 0;
-  // bool sortAscending = false;
   ScrollController scrollController = ScrollController();
   bool scrollTop = false;
   @override

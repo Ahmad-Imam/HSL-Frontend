@@ -101,14 +101,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
-                    SizedBox(
+                    const CircularProgressIndicator(),
+                    const SizedBox(
                       height: 20,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Text(
                         loadingText,
+                        // ignore: prefer_const_constructors
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w500),
                       ),
