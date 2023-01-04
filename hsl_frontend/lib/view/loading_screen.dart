@@ -29,11 +29,15 @@ List<Station> parseStationList(String responseBody) {
 Future<List<Journey>> fetchJourneyList(http.Client client) async {
   final response = await client
       .get(Uri.parse('http://$ipAddress:$port/sendJourneyListJson'));
+  print(response.statusCode);
 
-  return compute(parseJourneyList, response.body);
+  final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
+  return parsed.map<Journey>((json) => Journey.fromJson(json)).toList();
+  // return compute(parseJourneyList, response.body);
 }
 
 List<Journey> parseJourneyList(String responseBody) {
+  print(responseBody);
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
   return parsed.map<Journey>((json) => Journey.fromJson(json)).toList();
 }
@@ -41,15 +45,28 @@ List<Journey> parseJourneyList(String responseBody) {
 late List<Station> stationSnapshotData;
 late List<Journey> journeySnapshotData;
 bool hasValue = false;
-String loadingText = "Please wait a moment while the data is configured";
+String loadingText = "Please wait a moment while the data is fetched";
 
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void didChangeDependencies() async {
-    Future.delayed(const Duration(seconds: 90), () {
+    Future.delayed(const Duration(seconds: 120), () {
       setState(() {
         loadingText =
-            "Failed to connect. Check backend to see if it is running properly or if you have submitted your ip address and port number correctly";
+            "Response is here. Wait a bit more to configure the data to the application";
+      });
+    });
+
+    Future.delayed(const Duration(seconds: 240), () {
+      setState(() {
+        loadingText = "I know it is taking too long. Bear with me a while";
+      });
+    });
+
+    Future.delayed(const Duration(seconds: 360), () {
+      setState(() {
+        loadingText =
+            "Sorry for wasting your time. Error while loading data to the application";
       });
     });
 
